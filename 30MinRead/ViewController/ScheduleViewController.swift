@@ -17,7 +17,7 @@ class ScheduleViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         collectionView.register(ScheduleCell.self, forCellWithReuseIdentifier: ScheduleCell.reuseIdentifier)
         collectionView.delegate = self
@@ -45,7 +45,6 @@ class ScheduleViewController: UIViewController {
         calendarView.calendar = gregorianCalendar
         calendarView.locale = Locale(identifier: "ko_KR")
         calendarView.fontDesign = .rounded
-        calendarView.backgroundColor = .clear
         
         let today = Date()
         let todayComponents = gregorianCalendar.dateComponents([.year, .month, .day], from: today)
@@ -63,8 +62,8 @@ class ScheduleViewController: UIViewController {
         
         button.setTitle("일정 생성", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
-        button.tintColor = .white
-        button.backgroundColor = .black
+        button.tintColor = .label
+        button.backgroundColor = .systemGray
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         
@@ -135,3 +134,4 @@ extension ScheduleViewController {
         present(settingVC, animated: true)
     }
 }
+

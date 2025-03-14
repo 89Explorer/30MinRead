@@ -34,15 +34,15 @@ class ScheduleCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         
-        titleLabel.textColor = .black
+        titleLabel.textColor = .label
         titleLabel.textAlignment = .left
         titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
         
-        dateLabel.textColor = .black
+        dateLabel.textColor = .label
         dateLabel.textAlignment = .left
         dateLabel.font = .systemFont(ofSize: 18, weight: .regular)
         
-        timeLabel.textColor = .black
+        timeLabel.textColor = .label
         timeLabel.textAlignment = .left
         timeLabel.font = .systemFont(ofSize: 18, weight: .regular)
         
@@ -51,9 +51,9 @@ class ScheduleCell: UICollectionViewCell {
         checkLabel.font = .systemFont(ofSize: 12, weight: .bold)
         
         startButton.setTitle("독서하기", for: .normal)
-        startButton.setTitleColor(.white, for: .normal)
+        startButton.setTitleColor(.label, for: .normal)
         startButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        startButton.backgroundColor = .black
+        startButton.backgroundColor = .systemBackground
         startButton.layer.cornerRadius = 10
         startButton.layer.masksToBounds = true
         startButton.translatesAutoresizingMaskIntoConstraints = false
