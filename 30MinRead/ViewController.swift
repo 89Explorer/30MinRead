@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     
     
     // 📌 MARK: - UI Component
+    private var timerInfoLabel: UILabel = UILabel()
     private var timerLabel: UILabel = UILabel()
     private var startStopButton: UIButton = UIButton(type: .system)
     private var resetButton: UIButton = UIButton(type: .system)
@@ -45,8 +46,10 @@ class ViewController: UIViewController {
         
         if timerCounting {
             print("타이머 시작")
+            startTimer()
         } else {
-            print("타이머 정지")
+            // print("타이머 정지")
+            stopTimer()
         }
         
         // 버튼 액션 추가
@@ -57,7 +60,7 @@ class ViewController: UIViewController {
     
     
     // 📌 MARK: - Function
-    
+    /// 타이머를 시작하는 메서드
     func startTimer() {
         scheduledTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(refreshValue), userInfo: nil, repeats: true)
         setTimeCounting(true)
@@ -65,6 +68,7 @@ class ViewController: UIViewController {
         startStopButton.setTitleColor(.systemRed, for: .normal)
     }
     
+    /// 타이머를 정지시키는 메서드
     func stopTimer() {
         scheduledTimer?.invalidate()
         setTimeCounting(false)
@@ -72,6 +76,7 @@ class ViewController: UIViewController {
         startStopButton.setTitleColor(.white, for: .normal)
     }
     
+    /// 타이머 실행 상태를 변경하는 메서드 
     func setTimeCounting(_ value: Bool) {
         timerCounting = value
         userDefaults.set(timerCounting, forKey: counting_Key)
@@ -102,6 +107,14 @@ class ViewController: UIViewController {
     
     /// UI 설정 메서드
     private func setupUI() {
+        timerInfoLabel.text = "집중할 시간을" + "\n" + "선택해주세요😁"
+        timerInfoLabel.numberOfLines = 2
+        timerInfoLabel.font = .systemFont(ofSize: 35, weight: .bold)
+        timerInfoLabel.textColor = .white
+        timerInfoLabel.textAlignment = .center
+        timerInfoLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         timerLabel.text = "00:00:00"
         timerLabel.font = .systemFont(ofSize: 70, weight: .bold)
         timerLabel.textColor = .white
@@ -131,21 +144,28 @@ class ViewController: UIViewController {
         innerStackView.spacing = 30
         innerStackView.translatesAutoresizingMaskIntoConstraints = false
         
+        view.addSubview(timerInfoLabel)
         view.addSubview(timerLabel)
         view.addSubview(innerStackView)
         
         NSLayoutConstraint.activate([
             
+            timerInfoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            timerInfoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            timerInfoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            timerInfoLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
+            timerInfoLabel.heightAnchor.constraint(equalToConstant: 120),
+            
             timerLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             timerLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             timerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            timerLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            timerLabel.topAnchor.constraint(equalTo: timerInfoLabel.bottomAnchor, constant: 30),
             timerLabel.heightAnchor.constraint(equalToConstant: 60),
             
             innerStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             innerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             innerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            innerStackView.topAnchor.constraint(equalTo: timerLabel.bottomAnchor, constant: 30),
+            innerStackView.topAnchor.constraint(equalTo: timerLabel.bottomAnchor, constant: 60),
             innerStackView.heightAnchor.constraint(equalToConstant: 60)
             
         ])
@@ -161,7 +181,7 @@ class ViewController: UIViewController {
         let alert = UIAlertController(title: "독서에 집중하실 시간을 선택해주세요", message: "\n\n\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
         
         let timePicker = UIDatePicker()
-        timePicker.datePickerMode = .countDownTimer
+        timePicker.datePickerMode = .dateAndTime
         timePicker.locale = Locale(identifier: "ko_KR")
         timePicker.preferredDatePickerStyle = .wheels
         timePicker.frame = CGRect(x: 10, y: 30, width: alert.view.bounds.width - 20, height: 200)
@@ -183,12 +203,14 @@ class ViewController: UIViewController {
         
     }
     
+    /// 1초마다 실행되어 남은 시간을 업데이트하는 메서드
     @objc private func refreshValue() {
         if remainingSeconds > 0 {
             remainingSeconds -= 1
             userDefaults.set(remainingSeconds, forKey: remaining_Time_Key)
             updateLabel()
         } else {
+            print("타이머 완료 ")
             stopTimer()
         }
     }
@@ -201,13 +223,17 @@ class ViewController: UIViewController {
                 userDefaults.set(remainingSeconds, forKey: remaining_Time_Key)
             }
             startTimer()
+            timerInfoLabel.isHidden = true
         }
     }
     
+    /// 타이머를 리셋하는 멧서드
     @objc func resetAction() {
         stopTimer()
         remainingSeconds = 0
         userDefaults.set(remainingSeconds, forKey: remaining_Time_Key)
         updateLabel()
+        
+        timerInfoLabel.isHidden = false
     }
 }
