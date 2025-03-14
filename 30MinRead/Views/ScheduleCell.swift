@@ -26,7 +26,7 @@ class ScheduleCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentView.backgroundColor = .systemBrown
+        contentView.backgroundColor = .systemGray
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
         
@@ -51,9 +51,9 @@ class ScheduleCell: UICollectionViewCell {
         checkLabel.font = .systemFont(ofSize: 12, weight: .bold)
         
         startButton.setTitle("독서하기", for: .normal)
-        startButton.setTitleColor(.black, for: .normal)
+        startButton.setTitleColor(.white, for: .normal)
         startButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        startButton.backgroundColor = .systemGray
+        startButton.backgroundColor = .black
         startButton.layer.cornerRadius = 10
         startButton.layer.masksToBounds = true
         startButton.translatesAutoresizingMaskIntoConstraints = false

@@ -17,11 +17,14 @@ class ScheduleViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "ivory")
+        view.backgroundColor = .white
         
         collectionView.register(ScheduleCell.self, forCellWithReuseIdentifier: ScheduleCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        
+        didTappedAddScheduleButton()
         
         setupUI()
     }
@@ -60,8 +63,8 @@ class ScheduleViewController: UIViewController {
         
         button.setTitle("일정 생성", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 30, weight: .bold)
-        button.tintColor = .black
-        button.backgroundColor = .systemBrown
+        button.tintColor = .white
+        button.backgroundColor = .black
         button.layer.cornerRadius = 10
         button.layer.masksToBounds = true
         
@@ -102,5 +105,18 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
         cell.configure(image: "book", title: "교육의 뇌과학", date: "3월 14일" + " ~ " + "3월 24일", time: "매일 30분", check: "✅ ✅ ✅ ✅")
         return cell
     
+    }
+}
+
+
+// Extension: "일정 생성 버튼"
+extension ScheduleViewController {
+    
+    func didTappedAddScheduleButton() {
+        button.addTarget(self, action: #selector(addSchedule), for: .touchUpInside)
+    }
+    
+    @objc private func addSchedule() {
+        print("addSchedule - called")
     }
 }
