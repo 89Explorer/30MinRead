@@ -99,7 +99,7 @@ extension ScheduleViewController: UICollectionViewDelegate, UICollectionViewData
             return UICollectionViewCell() // 만약 캐스팅 실패 시 기본 셀 반환
         }
         
-        cell.configure(image: "book", title: "교육의 뇌과학", date: "3월 14일" + " ~ " + "3월 24일", time: "매일 30분")
+        cell.configure(image: "book", title: "교육의 뇌과학", date: "3월 14일" + " ~ " + "3월 24일", time: "매일 30분", check: "✅ ✅ ✅ ✅")
         return cell
     
     }

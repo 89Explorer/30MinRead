@@ -20,6 +20,7 @@ class ScheduleCell: UICollectionViewCell {
     private let checkLabel: UILabel = UILabel()
     private let innerStackView: UIStackView = UIStackView()
     private let totalStackView: UIStackView = UIStackView()
+    private let startButton: UIButton = UIButton(type: .system)
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -47,19 +48,27 @@ class ScheduleCell: UICollectionViewCell {
         
         checkLabel.textAlignment = .left
         checkLabel.numberOfLines = 0
-        checkLabel.text = "✅ ✅ ✅ ✅"
-        checkLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        checkLabel.font = .systemFont(ofSize: 12, weight: .bold)
+        
+        startButton.setTitle("독서하기", for: .normal)
+        startButton.setTitleColor(.black, for: .normal)
+        startButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        startButton.backgroundColor = .systemGray
+        startButton.layer.cornerRadius = 10
+        startButton.layer.masksToBounds = true
+        startButton.translatesAutoresizingMaskIntoConstraints = false
         
         
         innerStackView.axis = .vertical
         innerStackView.spacing = 10
-        innerStackView.distribution = .fillEqually
-        innerStackView.alignment = .leading
+        innerStackView.distribution = .fill
+        //innerStackView.alignment = .leading
         
         innerStackView.addArrangedSubview(titleLabel)
         innerStackView.addArrangedSubview(dateLabel)
         innerStackView.addArrangedSubview(timeLabel)
         innerStackView.addArrangedSubview(checkLabel)
+        innerStackView.addArrangedSubview(startButton)
         
         totalStackView.axis = .horizontal
         totalStackView.spacing = 10
@@ -78,7 +87,10 @@ class ScheduleCell: UICollectionViewCell {
             totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             
-            imageView.widthAnchor.constraint(equalToConstant: 160)
+            titleLabel.heightAnchor.constraint(equalToConstant: 80),
+            startButton.heightAnchor.constraint(equalToConstant: 40),
+            
+            imageView.widthAnchor.constraint(equalToConstant: 160),
         ])
     }
     
@@ -86,11 +98,12 @@ class ScheduleCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(image: String, title: String, date: String, time: String) {
+    func configure(image: String, title: String, date: String, time: String, check: String) {
         imageView.image = UIImage(named: image)
         titleLabel.text = title
         dateLabel.text = date
         timeLabel.text = time
+        checkLabel.text = check
     }
 }
 
