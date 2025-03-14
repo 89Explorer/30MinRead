@@ -118,5 +118,20 @@ extension ScheduleViewController {
     
     @objc private func addSchedule() {
         print("addSchedule - called")
+        showScheduleSettingView()
+    }
+    
+    func showScheduleSettingView() {
+        print("showScheduleSettingView - open")
+        let settingVC = SettingScheduleViewController()
+        
+        if let sheet = settingVC.sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 25
+            sheet.detents = [.medium(), .large()]
+            
+        }
+        
+        present(settingVC, animated: true)
     }
 }
