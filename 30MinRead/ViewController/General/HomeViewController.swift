@@ -40,6 +40,8 @@ class HomeViewController: UIViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.register(CalendarViewCell.self, forCellReuseIdentifier: CalendarViewCell.reuseIdentifier)
+        tableView.register(ProgressViewCell.self, forCellReuseIdentifier: ProgressViewCell.reuseIdentifier)
+        
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -96,8 +98,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         case .plan:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = "TEST"
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: ProgressViewCell.reuseIdentifier, for: indexPath) as? ProgressViewCell else { return UITableViewCell() }
+            
+            cell.backgroundColor = .clear
+            
+            cell.configure(title: "뇌 과학 교육법", page: "249page", date: "3월 4일 ~ 3월 23일", time: "매일 30분")
             return cell
         }
     }
@@ -127,6 +132,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 
+// MARK: - Eunm: 테이블 섹션 열거형
 enum TableSection: CaseIterable {
     case calendar
     case plan
