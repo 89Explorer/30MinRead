@@ -17,8 +17,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         //let vc = ViewController()
         //let calendarVC = CalendarViewController()
-        let scheduleVC = ScheduleViewController()
-        window?.rootViewController = scheduleVC
+        //let scheduleVC = ScheduleViewController()
+        let homeVC = UINavigationController(rootViewController: HomeViewController())
+        window?.rootViewController = homeVC
         window?.makeKeyAndVisible()
     }
 
