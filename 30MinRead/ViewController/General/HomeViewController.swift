@@ -24,12 +24,20 @@ class HomeViewController: UIViewController {
         
         view.backgroundColor = .systemBrown
         setupNavigationLeftTitle()
+        setupNavigationBabButton()
         setupUI()
         
     }
     
     
     // MARK: - Function
+    private func setupNavigationBabButton() {
+        let addItemButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addItem))
+        addItemButton.tintColor = .black
+        navigationItem.rightBarButtonItem = addItemButton
+    }
+    
+    
     private func setupUI() {
        
         tableView.backgroundColor = .clear
@@ -55,6 +63,14 @@ class HomeViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
             
         ])
+    }
+    
+    
+    // MARK: - Actions
+    @objc private func addItem() {
+        print("addItemButton Tapped")
+        let addVC = AddItemViewController()
+        navigationController?.pushViewController(addVC, animated: true)
     }
 }
 

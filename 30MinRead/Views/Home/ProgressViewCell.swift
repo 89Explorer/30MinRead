@@ -96,10 +96,10 @@ class ProgressViewCell: UITableViewCell {
             seperator.widthAnchor.constraint(equalTo: innerStackView.widthAnchor),
             seperator.heightAnchor.constraint(equalToConstant: 2),
             
-            totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
-            totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+            totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
             
         ])
         
