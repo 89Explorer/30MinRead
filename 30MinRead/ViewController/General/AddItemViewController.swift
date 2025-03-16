@@ -66,10 +66,14 @@ class AddItemViewController: UIViewController {
         titleTextField.placeholder = "책 이름을 입력하세요"
         titleTextField.keyboardType = .default
         titleTextField.returnKeyType = .next
+        
         pageTextField.placeholder = "전체 페이지수를 입력하세요"
         pageTextField.keyboardType = .numberPad
         pageTextField.returnKeyType = .next
+        
         dateTextField.placeholder = "독서 기간을 선택하세요"
+        dateTextField.delegate = self
+        
         timeTextField.placeholder = "독서 시간을 입력하세요"
         
         stackView.axis = .vertical
@@ -113,5 +117,29 @@ class AddItemViewController: UIViewController {
     // MARK: - Action
     @objc private func didMissed() {
         view.endEditing(true)
+    }
+}
+
+
+// MARK: - Extension: UITextFieldDelegate
+extension AddItemViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == dateTextField {
+            let datePickerVC = DatePickerSheetViewController()
+            
+            if let sheet = datePickerVC.sheetPresentationController {
+                sheet.detents = [.medium()]
+                sheet.prefersGrabberVisible = true
+                sheet.preferredCornerRadius = 20
+            }
+            present(datePickerVC, animated: true)
+//            datePickerVC.modalPresentationStyle = .pageSheet
+//            present(datePickerVC, animated: true)
+            return false
+        }
+        
+        
+        
+        return true
     }
 }
