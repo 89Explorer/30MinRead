@@ -12,7 +12,7 @@ class DatePickerSheetViewController: UIViewController {
     // MARK: - Variable
     private var selectedStartDate: Date?
     private var selectedEndDate: Date?
-    
+    weak var delegate: DatePickerDelegate?
     
     // MARK: - UI Component
     private let calendarView: UICalendarView = UICalendarView()
@@ -33,11 +33,14 @@ class DatePickerSheetViewController: UIViewController {
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         
         confirmButton.setTitle("선택 완료", for: .normal)
-        confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         confirmButton.setTitleColor(.label, for: .normal)
         confirmButton.backgroundColor = .systemGreen
+        confirmButton.layer.cornerRadius = 10
+        confirmButton.layer.masksToBounds = true
         confirmButton.addTarget(self, action: #selector(confirmSelection), for: .touchUpInside)
         confirmButton.translatesAutoresizingMaskIntoConstraints = false
+
         
         view.addSubview(calendarView)
         view.addSubview(confirmButton)
@@ -52,7 +55,7 @@ class DatePickerSheetViewController: UIViewController {
             confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             confirmButton.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 15),
-            confirmButton.heightAnchor.constraint(equalToConstant: 40)
+            confirmButton.heightAnchor.constraint(equalToConstant: 60)
             
         ])
         
@@ -77,7 +80,8 @@ class DatePickerSheetViewController: UIViewController {
     @objc private func confirmSelection() {
         if let startDate = selectedStartDate,
            let endDate = selectedEndDate {
-            print("선택한 기간: \(formatDate(startDate)) ~ \(formatDate(endDate))")
+            delegate?.didSelectedDateRange(startDate: formatDate(startDate), endDate: formatDate(endDate))
+            //print("선택한 기간: \(formatDate(startDate)) ~ \(formatDate(endDate))")
             dismiss(animated: true)
         } else {
             print("기간을 선택해주세요")
@@ -92,8 +96,7 @@ extension DatePickerSheetViewController: UICalendarSelectionMultiDateDelegate {
     
     func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
         guard let newDate = dateComponents.date else { return }
-        
-       
+
         if selectedStartDate == nil {
             selectedStartDate = newDate
             selectedEndDate = newDate
@@ -106,14 +109,9 @@ extension DatePickerSheetViewController: UICalendarSelectionMultiDateDelegate {
             }
         } else {
             // ✅ 세 번째 날짜 선택 시, 기존 시작일/종료일 중 더 가까운 날짜를 변경
-            let distanceToStart = abs(newDate.timeIntervalSince(selectedStartDate!))
-            let distanceToEnd = abs(newDate.timeIntervalSince(selectedEndDate!))
-            
-            if distanceToStart < distanceToEnd {
-                selectedStartDate = newDate
-            } else {
-                selectedEndDate = newDate
-            }
+            let allDates = [selectedStartDate!, selectedEndDate!, newDate].sorted() // ✅ 날짜 정렬
+            selectedStartDate = allDates.first
+            selectedEndDate = allDates.last
         }
         
         selectDatesBetween(selection: selection, startDate: selectedStartDate!, endDate: selectedEndDate!)
@@ -146,3 +144,6 @@ extension DatePickerSheetViewController: UICalendarSelectionMultiDateDelegate {
 }
 
 
+protocol DatePickerDelegate: AnyObject {
+    func didSelectedDateRange(startDate: String, endDate: String)
+}
